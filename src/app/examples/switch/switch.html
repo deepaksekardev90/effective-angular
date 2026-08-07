@@ -1,0 +1,17 @@
+<h3>&#64;switch</h3>
+
+<button (click)="role.set('admin')">admin</button>
+<button (click)="role.set('editor')">editor</button>
+<button (click)="role.set('viewer')">viewer</button>
+
+@switch (role()) {
+  @case ('admin') {
+    <p>Welcome, Admin! You have full access.</p>
+  }
+  @case ('editor') {
+    <p>Welcome, Editor! You can modify content.</p>
+  }
+  @default {
+    <p>Welcome, Viewer! You have read-only access.</p>
+  }
+}

@@ -1,0 +1,88 @@
+<h3>&#64;defer</h3>
+
+<!--
+  FULL @defer SYNTAX — every block and option in one place.
+
+  Main trigger:      on <trigger>  or  when <condition>
+  Prefetch trigger:   prefetch on <trigger>  or  prefetch when <condition>
+  (prefetch loads the deferred JS eagerly but still renders the block
+  only when the main trigger fires — great for "likely needed soon" content)
+
+  Sub-blocks (all optional except the main @defer block):
+    @placeholder (minimum <time>) { ... }  -- shown before trigger fires
+    @loading (minimum <time>; after <time>) { ... }  -- shown while chunk loads
+    @error { ... }                          -- shown if the import fails
+-->
+<button #fullDeferBtn>Trigger full example</button>
+@defer (on interaction(fullDeferBtn); prefetch on idle) {
+  <app-child></app-child>
+} @placeholder (minimum 200ms) {
+  <p>Click the button above to load the child component.</p>
+} @loading (minimum 500ms; after 100ms) {
+  <p>Loading...</p>
+} @error {
+  <p>Something went wrong loading the component.</p>
+}
+
+<hr />
+
+<!-- on idle: fires once the browser is idle (this is also the default if no trigger is given) -->
+@defer (on idle) {
+  <p>Loaded when the browser is idle.</p>
+} @placeholder {
+  <p>Waiting for idle...</p>
+}
+
+<!-- on viewport: fires when the block (or a referenced element) enters the viewport -->
+@defer (on viewport) {
+  <p>Loaded because you scrolled this into view.</p>
+} @placeholder {
+  <p>Scroll down to load...</p>
+}
+
+<!-- on interaction: fires on click/keydown, either the block itself or a referenced element -->
+<button #interactionRef>Load on interaction</button>
+@defer (on interaction(interactionRef)) {
+  <p>Loaded because you interacted with the button.</p>
+} @placeholder {
+  <p>Click the button to load.</p>
+}
+
+<!-- on hover: fires on mouseover/focusin, either the block itself or a referenced element -->
+<div #hoverRef style="border: 1px solid gray; padding: 8px; width: fit-content;">
+  Hover over me
+</div>
+@defer (on hover(hoverRef)) {
+  <p>Loaded because you hovered over the div.</p>
+} @placeholder {
+  <p>Hover above to load.</p>
+}
+
+<!-- on timer: fires after a fixed delay -->
+@defer (on timer(3s)) {
+  <p>Loaded after a 3 second timer.</p>
+} @placeholder {
+  <p>Will load in 3 seconds...</p>
+}
+
+<!-- on immediate: fires as soon as Angular finishes rendering everything else -->
+@defer (on immediate) {
+  <p>Loaded immediately after initial render.</p>
+} @placeholder {
+  <p>About to load immediately...</p>
+}
+
+<!-- when: fires once a custom boolean expression becomes true (signal-driven here) -->
+<button (click)="role.set('admin')">Set role to admin</button>
+@defer (when role() === 'admin') {
+  <p>Loaded because role() became 'admin'.</p>
+} @placeholder {
+  <p>Will load once role is 'admin'.</p>
+}
+
+<!-- combining multiple triggers: whichever fires first wins -->
+@defer (on idle; on timer(5s)) {
+  <p>Loaded on idle, or after 5 seconds, whichever comes first.</p>
+} @placeholder {
+  <p>Waiting on idle or timer...</p>
+}

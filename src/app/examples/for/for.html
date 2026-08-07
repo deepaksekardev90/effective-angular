@@ -1,0 +1,14 @@
+<h3>&#64;for</h3>
+
+<ul>
+  @for (fruit of fruits(); track fruit.id; let last = $last; let even = $even; let odd = $odd) {
+    <li [class.last]="last" [class.even]="even" [class.odd]="odd">
+      {{ fruit.name }}
+      @if (even) { (even) }
+      @if (odd) { (odd) }
+      @if (last) { (last item) }
+    </li>
+  } @empty {
+    <li>No fruits available</li>
+  }
+</ul>
