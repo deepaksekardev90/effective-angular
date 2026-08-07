@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Child } from '../../child/child';
+
 
 @Component({
   selector: 'app-defer',
-  imports: [Child],
+  imports: [],
   templateUrl: './defer.html',
   styleUrl: './defer.scss',
 })

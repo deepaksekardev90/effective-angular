@@ -15,7 +15,7 @@
 -->
 <button #fullDeferBtn>Trigger full example</button>
 @defer (on interaction(fullDeferBtn); prefetch on idle) {
-  <app-child></app-child>
+<p>Content</p>
 } @placeholder (minimum 200ms) {
   <p>Click the button above to load the child component.</p>
 } @loading (minimum 500ms; after 100ms) {
