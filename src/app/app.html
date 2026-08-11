@@ -1,5 +1,55 @@
 <h1>{{ title() }}</h1>
 
-<app-person-form />
+<form #bioForm="ngForm" novalidate>
+  <div class="form-field">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      [(ngModel)]="model.name"
+      #name="ngModel"
+      [minlength]="2"
+      required
+    />
+
+    @if (name.invalid && name.touched) {
+      <div class="error">
+        @if (name.errors?.['required']) {
+          <span>Name is required.</span>
+        }
+        @if (name.errors?.['minlength']) {
+          <span>Name must be at least 2 characters.</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="age">Age</label>
+    <input
+      type="number"
+      id="age"
+      name="age"
+      [(ngModel)]="model.age"
+      #age="ngModel"
+      [max]="100"
+      required
+    />
+
+    @if (age.invalid && age.touched) {
+      <div class="error">
+        @if (age.errors?.['required']) {
+          <span>Age is required.</span>
+        }
+        @if (age.errors?.['max']) {
+          <span>Max age is 100</span>
+        }
+      </div>
+    }
+  </div>
+</form>
+
+<div>{{ model | json }}</div>
 
 <router-outlet />
