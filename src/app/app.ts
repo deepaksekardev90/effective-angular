@@ -4,6 +4,7 @@ import { PersonFormComponent } from './examples/person-form/person-form';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormComponent } from './examples/reactive-form/reactive-form';
+import { DynamicFormComponent } from './examples/dynamic-form/dynamic-form';
 
 interface BioForm {
   name:string;
@@ -12,7 +13,7 @@ interface BioForm {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,ReactiveFormComponent, CommonModule],
+  imports: [RouterOutlet, ReactiveFormComponent, DynamicFormComponent, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

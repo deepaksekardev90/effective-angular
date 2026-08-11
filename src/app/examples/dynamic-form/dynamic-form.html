@@ -1,0 +1,108 @@
+<div class="form-container">
+  <form [formGroup]="formModel" (ngSubmit)="onSubmit()" novalidate>
+    @for (control of formModelConfig; track control.controlKey) {
+      @switch (control.kind) {
+        @case ('control') {
+          <div class="form-field">
+            <label [for]="control.controlKey">{{ control.label ?? control.controlKey }}</label>
+            <input
+              [id]="control.controlKey"
+              [type]="control.inputType ?? 'text'"
+              [formControlName]="control.controlKey"
+            />
+            @if (errorsFor(formModel.get(control.controlKey), control); as errors) {
+              @if (errors.length) {
+                <div class="error">
+                  @for (msg of errors; track msg) {
+                    <span>{{ msg }}</span>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+        @case ('group') {
+          <div [formGroupName]="control.controlKey">
+            @for (child of control.controls; track child.controlKey) {
+              <div class="form-field">
+                <label [for]="child.controlKey">{{ child.label ?? child.controlKey }}</label>
+                <input
+                  [id]="child.controlKey"
+                  [type]="child.inputType ?? 'text'"
+                  [formControlName]="child.controlKey"
+                />
+                @if (errorsFor(asGroup(control.controlKey).get(child.controlKey), child); as errors) {
+                  @if (errors.length) {
+                    <div class="error">
+                      @for (msg of errors; track msg) {
+                        <span>{{ msg }}</span>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            }
+            @if (errorsFor(asGroup(control.controlKey), control); as errors) {
+              @if (errors.length) {
+                <div class="error">
+                  @for (msg of errors; track msg) {
+                    <span>{{ msg }}</span>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+        @case ('array') {
+          <div [formArrayName]="control.controlKey" class="form-field">
+            <label>{{ control.label ?? control.controlKey }}</label>
+            @for (item of arrayControls(control.controlKey); track $index) {
+              <div class="tag-field">
+                <input
+                  [formControlName]="$index"
+                  [type]="control.itemTemplate.inputType ?? 'text'"
+                  [id]="control.controlKey + '-' + $index"
+                />
+                <div class="tag-actions">
+                  @if ($index > 0) {
+                    <button type="button" (click)="removeArrayItem(control, $index)">-</button>
+                  }
+                  <button type="button" (click)="addArrayItem(control)">+</button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+        @case ('record') {
+          <div [formGroupName]="control.controlKey" class="form-field">
+            <label>{{ control.label ?? control.controlKey }}</label>
+            @for (key of recordKeys(control.controlKey); track key) {
+              <div class="status-field">
+                <label class="checkbox-label">
+                  <input type="checkbox" [formControlName]="key" />
+                  {{ key }}
+                </label>
+                <button type="button" (click)="removeRecordEntry(control, key)">-</button>
+              </div>
+            }
+            <div class="tag-field">
+              <input #newEntryInput type="text" placeholder="New status" />
+              <button
+                type="button"
+                (click)="addRecordEntry(control, newEntryInput.value); newEntryInput.value = ''"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        }
+      }
+    }
+
+    <button type="submit" [disabled]="formModel.invalid">Submit</button>
+
+    @if (submitted) {
+      <div class="success">Form submitted successfully!</div>
+    }
+  </form>
+</div>
