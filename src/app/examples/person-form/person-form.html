@@ -92,6 +92,38 @@
       }
     </div>
 
+    <div ngModelGroup="passwordGroup" appPasswordMatch #passwordGroup="ngModelGroup">
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          [(ngModel)]="model.password"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          [(ngModel)]="model.confirmPassword"
+          required
+        />
+      </div>
+
+      @if (passwordGroup.invalid && passwordGroup.touched) {
+        <div class="error">
+          @if (passwordGroup.errors?.['passwordMismatch']) {
+            <span>Passwords must match.</span>
+          }
+        </div>
+      }
+    </div>
+
     <button type="submit" [disabled]="personForm.invalid">Submit</button>
 
     @if (submitted) {
