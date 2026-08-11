@@ -3,6 +3,8 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
+  FormGroup,
+  FormRecord,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -43,7 +45,13 @@ export class ReactiveFormComponent {
       { validators: passwordMatchValidator },
     ),
     tags: new FormArray([new FormControl('')]),
+    statuses: new FormRecord<FormControl<boolean>>({
+      active: new FormControl(false, { nonNullable: true }),
+      archived: new FormControl(false, { nonNullable: true }),
+    }),
   });
+
+  newStatus = new FormControl('', { nonNullable: true });
 
   submitted = false;
 
@@ -53,6 +61,14 @@ export class ReactiveFormComponent {
 
   get passwordGroup() {
     return this.form.controls.passwordGroup;
+  }
+
+  get statuses() {
+    return this.form.controls.statuses;
+  }
+
+  get statusKeys() {
+    return Object.keys(this.statuses.controls);
   }
 
   onSubmit(): void {
@@ -70,5 +86,18 @@ export class ReactiveFormComponent {
 
   removeTag(index: number) {
     this.form.controls.tags.removeAt(index);
+  }
+
+  addStatus(): void {
+    const name = this.newStatus.value.trim();
+    if (!name || this.statuses.contains(name)) {
+      return;
+    }
+    this.statuses.addControl(name, new FormControl(false, { nonNullable: true }));
+    this.newStatus.reset('');
+  }
+
+  removeStatus(name: string): void {
+    (this.statuses as FormGroup).removeControl(name);
   }
 }

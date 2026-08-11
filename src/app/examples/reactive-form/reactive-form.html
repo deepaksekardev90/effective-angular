@@ -158,6 +158,24 @@
 
     </div>
 
+    <div formGroupName="statuses" class="form-field">
+      <label>Statuses</label>
+      @for (key of statusKeys; track key) {
+        <div class="status-field">
+          <label class="checkbox-label">
+            <input type="checkbox" [formControlName]="key" />
+            {{ key }}
+          </label>
+          <button type="button" (click)="removeStatus(key)">-</button>
+        </div>
+      }
+
+      <div class="tag-field">
+        <input [formControl]="newStatus" type="text" placeholder="New status" />
+        <button type="button" (click)="addStatus()">+</button>
+      </div>
+    </div>
+
     <button type="submit" [disabled]="form.invalid">Submit</button>
 
     @if (submitted) {
