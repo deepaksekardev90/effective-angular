@@ -55,11 +55,15 @@
         [(ngModel)]="model.address"
         #address="ngModel"
         required
+        [appMaxWordCount]="2"
       ></textarea>
       @if (address.invalid && address.touched) {
         <div class="error">
           @if (address.errors?.['required']) {
             <span>Address is required.</span>
+          }
+          @if (address.errors?.['maxWordCount']; as err) {
+            <span>Address must be at most {{ err.max }} words (currently {{ err.count }}).</span>
           }
         </div>
       }

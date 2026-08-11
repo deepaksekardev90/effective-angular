@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { MaxWordCountDirective } from './max-word-count';
 
 export interface PersonForm {
   name: string;
@@ -10,7 +11,7 @@ export interface PersonForm {
 
 @Component({
   selector: 'app-person-form',
-  imports: [FormsModule],
+  imports: [FormsModule, MaxWordCountDirective],
   templateUrl: './person-form.html',
   styleUrl: './person-form.scss',
 })
