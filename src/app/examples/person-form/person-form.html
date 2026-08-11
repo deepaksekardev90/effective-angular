@@ -47,24 +47,113 @@
       }
     </div>
 
-    <div class="form-field">
-      <label for="address">Address</label>
-      <textarea
-        id="address"
-        name="address"
-        [(ngModel)]="model.address"
-        #address="ngModel"
-        required
-        [appMaxWordCount]="2"
-      ></textarea>
-      @if (address.invalid && address.touched) {
+    <div ngModelGroup="address" #addressGroup="ngModelGroup" [appAddressWordCount]="15">
+      <div class="form-field">
+        <label for="addressNo">No.</label>
+        <input
+          id="addressNo"
+          name="no"
+          type="text"
+          [(ngModel)]="model.address.no"
+          #addressNo="ngModel"
+          required
+        />
+        @if (addressNo.invalid && addressNo.touched) {
+          <div class="error">
+            @if (addressNo.errors?.['required']) {
+              <span>No. is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="street">Street</label>
+        <input
+          id="street"
+          name="street"
+          type="text"
+          [(ngModel)]="model.address.street"
+          #street="ngModel"
+          required
+          [appMaxWordCount]="6"
+        />
+        @if (street.invalid && street.touched) {
+          <div class="error">
+            @if (street.errors?.['required']) {
+              <span>Street is required.</span>
+            }
+            @if (street.errors?.['maxWordCount']; as err) {
+              <span>Street must be at most {{ err.max }} words (currently {{ err.count }}).</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="area">Area</label>
+        <input
+          id="area"
+          name="area"
+          type="text"
+          [(ngModel)]="model.address.area"
+          #area="ngModel"
+          required
+        />
+        @if (area.invalid && area.touched) {
+          <div class="error">
+            @if (area.errors?.['required']) {
+              <span>Area is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="city">City</label>
+        <input
+          id="city"
+          name="city"
+          type="text"
+          [(ngModel)]="model.address.city"
+          #city="ngModel"
+          required
+        />
+        @if (city.invalid && city.touched) {
+          <div class="error">
+            @if (city.errors?.['required']) {
+              <span>City is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="pincode">Pincode</label>
+        <input
+          id="pincode"
+          name="pincode"
+          type="text"
+          [(ngModel)]="model.address.pincode"
+          #pincode="ngModel"
+          required
+          pattern="^[0-9]{6}$"
+        />
+        @if (pincode.invalid && pincode.touched) {
+          <div class="error">
+            @if (pincode.errors?.['required']) {
+              <span>Pincode is required.</span>
+            }
+            @if (pincode.errors?.['pattern']) {
+              <span>Enter a valid 6-digit pincode.</span>
+            }
+          </div>
+        }
+      </div>
+
+      @if (addressGroup.errors?.['addressWordCount']; as err) {
         <div class="error">
-          @if (address.errors?.['required']) {
-            <span>Address is required.</span>
-          }
-          @if (address.errors?.['maxWordCount']; as err) {
-            <span>Address must be at most {{ err.max }} words (currently {{ err.count }}).</span>
-          }
+          <span>Address must be at most {{ err.max }} words total (currently {{ err.count }}).</span>
         </div>
       }
     </div>
