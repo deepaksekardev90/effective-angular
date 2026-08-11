@@ -1,6 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { addressWordCountValidator, maxWordCountValidator, passwordMatchValidator } from './validators';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  addressWordCountValidator,
+  maxWordCountValidator,
+  passwordMatchValidator,
+} from './validators';
 
 @Component({
   selector: 'app-reactive-form',
@@ -32,6 +42,7 @@ export class ReactiveFormComponent {
       },
       { validators: passwordMatchValidator },
     ),
+    tags: new FormArray([new FormControl('')]),
   });
 
   submitted = false;
@@ -51,5 +62,13 @@ export class ReactiveFormComponent {
     }
     this.submitted = true;
     console.log('Form submitted', this.form.getRawValue());
+  }
+
+  addTag() {
+    this.form.controls.tags.insert(0, new FormControl(''));
+  }
+
+  removeTag(index: number) {
+    this.form.controls.tags.removeAt(index);
   }
 }

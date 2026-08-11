@@ -99,7 +99,9 @@
 
       @if (address.errors?.['addressWordCount']; as err) {
         <div class="error">
-          <span>Address must be at most {{ err.max }} words total (currently {{ err.count }}).</span>
+          <span
+            >Address must be at most {{ err.max }} words total (currently {{ err.count }}).</span
+          >
         </div>
       }
     </div>
@@ -137,6 +139,23 @@
           }
         </div>
       }
+    </div>
+
+    <div formArrayName="tags" class="form-field">
+      <label>Tags</label>
+      @for (tag of form.controls.tags.controls; track $index) {
+        <div class="tag-field">
+          <input [formControlName]="$index" type="text" id="tag-{{ $index }}" />
+
+          <div class="tag-actions">
+            @if ($index > 0) {
+              <button type="button" (click)="removeTag($index)">-</button>
+            }
+            <button type="button" (click)="addTag()">+</button>
+          </div>
+        </div>
+      }
+
     </div>
 
     <button type="submit" [disabled]="form.invalid">Submit</button>
