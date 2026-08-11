@@ -1,0 +1,55 @@
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { addressWordCountValidator, maxWordCountValidator, passwordMatchValidator } from './validators';
+
+@Component({
+  selector: 'app-reactive-form',
+  imports: [ReactiveFormsModule],
+  templateUrl: './reactive-form.html',
+  styleUrl: './reactive-form.scss',
+})
+export class ReactiveFormComponent {
+  private readonly fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    age: [null as number | null, [Validators.required, Validators.min(0), Validators.max(120)]],
+    address: this.fb.group(
+      {
+        no: ['', Validators.required],
+        street: ['', [Validators.required, maxWordCountValidator(6)]],
+        area: ['', Validators.required],
+        city: ['', Validators.required],
+        pincode: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]],
+      },
+      { validators: addressWordCountValidator(5) },
+    ),
+    phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+    passwordGroup: this.fb.group(
+      {
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+      },
+      { validators: passwordMatchValidator },
+    ),
+  });
+
+  submitted = false;
+
+  get address() {
+    return this.form.controls.address;
+  }
+
+  get passwordGroup() {
+    return this.form.controls.passwordGroup;
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.submitted = true;
+    console.log('Form submitted', this.form.getRawValue());
+  }
+}

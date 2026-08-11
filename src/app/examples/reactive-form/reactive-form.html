@@ -1,0 +1,148 @@
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      @if (form.controls.name.invalid && form.controls.name.touched) {
+        <div class="error">
+          @if (form.controls.name.errors?.['required']) {
+            <span>Name is required.</span>
+          }
+          @if (form.controls.name.errors?.['minlength']) {
+            <span>Name must be at least 2 characters.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="age">Age</label>
+      <input id="age" type="number" formControlName="age" />
+      @if (form.controls.age.invalid && form.controls.age.touched) {
+        <div class="error">
+          @if (form.controls.age.errors?.['required']) {
+            <span>Age is required.</span>
+          }
+          @if (form.controls.age.errors?.['min'] || form.controls.age.errors?.['max']) {
+            <span>Age must be between 0 and 120.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div formGroupName="address">
+      <div class="form-field">
+        <label for="addressNo">No.</label>
+        <input id="addressNo" type="text" formControlName="no" />
+        @if (address.controls.no.invalid && address.controls.no.touched) {
+          <div class="error">
+            @if (address.controls.no.errors?.['required']) {
+              <span>No. is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="street">Street</label>
+        <input id="street" type="text" formControlName="street" />
+        @if (address.controls.street.invalid && address.controls.street.touched) {
+          <div class="error">
+            @if (address.controls.street.errors?.['required']) {
+              <span>Street is required.</span>
+            }
+            @if (address.controls.street.errors?.['maxWordCount']; as err) {
+              <span>Street must be at most {{ err.max }} words (currently {{ err.count }}).</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="area">Area</label>
+        <input id="area" type="text" formControlName="area" />
+        @if (address.controls.area.invalid && address.controls.area.touched) {
+          <div class="error">
+            @if (address.controls.area.errors?.['required']) {
+              <span>Area is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="city">City</label>
+        <input id="city" type="text" formControlName="city" />
+        @if (address.controls.city.invalid && address.controls.city.touched) {
+          <div class="error">
+            @if (address.controls.city.errors?.['required']) {
+              <span>City is required.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="pincode">Pincode</label>
+        <input id="pincode" type="text" formControlName="pincode" />
+        @if (address.controls.pincode.invalid && address.controls.pincode.touched) {
+          <div class="error">
+            @if (address.controls.pincode.errors?.['required']) {
+              <span>Pincode is required.</span>
+            }
+            @if (address.controls.pincode.errors?.['pattern']) {
+              <span>Enter a valid 6-digit pincode.</span>
+            }
+          </div>
+        }
+      </div>
+
+      @if (address.errors?.['addressWordCount']; as err) {
+        <div class="error">
+          <span>Address must be at most {{ err.max }} words total (currently {{ err.count }}).</span>
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="phone">Phone No.</label>
+      <input id="phone" type="tel" formControlName="phone" />
+      @if (form.controls.phone.invalid && form.controls.phone.touched) {
+        <div class="error">
+          @if (form.controls.phone.errors?.['required']) {
+            <span>Phone number is required.</span>
+          }
+          @if (form.controls.phone.errors?.['pattern']) {
+            <span>Enter a valid 10-digit phone number.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div formGroupName="passwordGroup">
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
+      </div>
+
+      <div class="form-field">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" />
+      </div>
+
+      @if (passwordGroup.invalid && passwordGroup.touched) {
+        <div class="error">
+          @if (passwordGroup.errors?.['passwordMismatch']) {
+            <span>Passwords must match.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+
+    @if (submitted) {
+      <div class="success">Form submitted successfully!</div>
+    }
+  </form>
+</div>
