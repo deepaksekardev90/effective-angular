@@ -1,0 +1,97 @@
+<div class="form-container">
+  <form #personForm="ngForm" (ngSubmit)="onSubmit(personForm)" novalidate>
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        [(ngModel)]="model.name"
+        #name="ngModel"
+        required
+        minlength="2"
+      />
+      @if (name.invalid && name.touched) {
+        <div class="error">
+          @if (name.errors?.['required']) {
+            <span>Name is required.</span>
+          }
+          @if (name.errors?.['minlength']) {
+            <span>Name must be at least 2 characters.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="age">Age</label>
+      <input
+        id="age"
+        name="age"
+        type="number"
+        [(ngModel)]="model.age"
+        #age="ngModel"
+        required
+        min="0"
+        max="120"
+      />
+      @if (age.invalid && age.touched) {
+        <div class="error">
+          @if (age.errors?.['required']) {
+            <span>Age is required.</span>
+          }
+          @if (age.errors?.['min'] || age.errors?.['max']) {
+            <span>Age must be between 0 and 120.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="address">Address</label>
+      <textarea
+        id="address"
+        name="address"
+        [(ngModel)]="model.address"
+        #address="ngModel"
+        required
+      ></textarea>
+      @if (address.invalid && address.touched) {
+        <div class="error">
+          @if (address.errors?.['required']) {
+            <span>Address is required.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="phone">Phone No.</label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        [(ngModel)]="model.phone"
+        #phone="ngModel"
+        required
+        pattern="^[0-9]{10}$"
+      />
+      @if (phone.invalid && phone.touched) {
+        <div class="error">
+          @if (phone.errors?.['required']) {
+            <span>Phone number is required.</span>
+          }
+          @if (phone.errors?.['pattern']) {
+            <span>Enter a valid 10-digit phone number.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="personForm.invalid">Submit</button>
+
+    @if (submitted) {
+      <div class="success">Form submitted successfully!</div>
+    }
+  </form>
+</div>
