@@ -1,0 +1,24 @@
+<section>
+  <h3>Tag selector (select="p")</h3>
+  <ng-content select="p"></ng-content>
+</section>
+
+<section>
+  <h3>Class selector (select=".highlight")</h3>
+  <ng-content select=".highlight"></ng-content>
+</section>
+
+<section>
+  <h3>Id selector (select="#special")</h3>
+  <ng-content select="#special"></ng-content>
+</section>
+
+<section>
+  <h3>Attribute-value selector (select="[type='text']")</h3>
+  <ng-content select="[type='text']"></ng-content>
+</section>
+
+<section>
+  <h3>Default / unmatched fallback</h3>
+  <ng-content></ng-content>
+</section>

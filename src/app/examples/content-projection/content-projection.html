@@ -1,0 +1,35 @@
+<h3>1. Basic single-slot projection</h3>
+<button type="button" (click)="basicModalShown = true">Open basic modal</button>
+<app-modal [(shown)]="basicModalShown" title="Basic modal">
+  <p>This content is projected into the default &lt;ng-content&gt;.</p>
+</app-modal>
+
+<h3>2. Multi-slot projection (header-content)</h3>
+<button type="button" (click)="multiSlotModalShown = true">Open modal with custom header</button>
+<app-modal [(shown)]="multiSlotModalShown" title="With header content">
+  <p>Main projected content.</p>
+  <div header-content>Special header content</div>
+</app-modal>
+
+<h3>3. &#64;for-in-parent workaround for multiple header items</h3>
+<!--
+  Wrapping ng-content in @for/@if/@switch INSIDE modal.html would not
+  repeat/re-evaluate correctly. Instead, the @for lives here, in the
+  parent template, around the projected elements themselves.
+-->
+<button type="button" (click)="workaroundModalShown = true">Open modal with multiple headers</button>
+<app-modal [(shown)]="workaroundModalShown" title="Multiple headers">
+  <p>Main content.</p>
+  @for (header of headers; track header) {
+    <div header-content>{{ header }}</div>
+  }
+</app-modal>
+
+<h3>4. select attribute matching variety</h3>
+<app-content-slots>
+  <p>Matched by tag selector (p)</p>
+  <div class="highlight">Matched by class selector (.highlight)</div>
+  <div id="special">Matched by id selector (#special)</div>
+  <input type="text" value="Matched by attribute-value selector" />
+  <span>Unmatched — falls back to the default slot</span>
+</app-content-slots>

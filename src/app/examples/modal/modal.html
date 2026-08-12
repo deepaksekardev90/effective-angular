@@ -1,0 +1,19 @@
+@if (shown) {
+  <div class="backdrop" (click)="close()"></div>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <!--
+        This ng-content is a single slot: wrapping it in @for/@if here would
+        not repeat or re-evaluate correctly. To project multiple header
+        items, put @for around the projected elements in the parent
+        template instead (see the content-projection demo).
+      -->
+      <ng-content select="[header-content]"></ng-content>
+      <button type="button" class="close-btn" (click)="close()">×</button>
+    </div>
+    <div class="modal-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+}
