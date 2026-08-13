@@ -1,0 +1,18 @@
+<h3>5. ng-template projection (TemplateRef via a projection directive)</h3>
+<app-display-scales [scaleSizes]="[0.8, 1, 1.2, 1.4]">
+  <ng-template appScalesProjection>I scale!</ng-template>
+</app-display-scales>
+
+<!--
+  A single ng-template can be read with @ContentChild. The moment more than
+  one ng-template needs to be projected through the same directive,
+  @ContentChild only picks up the first one — @ContentChildren (a QueryList)
+  is required instead, as used by app-display-scales below. Named multi-slot
+  projection (a separate directive per slot, e.g. a header slot) is the same
+  pattern repeated with a second directive type.
+-->
+<h3>6. Projecting multiple ng-template blocks with @ContentChildren</h3>
+<app-display-scales [scaleSizes]="[1, 1.5]">
+  <ng-template appScalesProjection>Block A</ng-template>
+  <ng-template appScalesProjection>Block B</ng-template>
+</app-display-scales>
