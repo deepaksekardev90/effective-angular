@@ -1,0 +1,7 @@
+@for (size of scaleSizes; track size) {
+  <div class="scaled" [style.transform]="'scale(' + size + ')'">
+    @for (item of content.toArray(); track item) {
+      <ng-container [ngTemplateOutlet]="item.templateRef"></ng-container>
+    }
+  </div>
+}
