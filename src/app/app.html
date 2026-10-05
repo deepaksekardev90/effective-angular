@@ -1,5 +1,7 @@
 <h1>{{ title() }}</h1>
 
-<app-template-projection></app-template-projection>
+<div #divRef>I am a div</div>
+
+<p>{{divRef.isConnected}}</p>
 
 <router-outlet />
